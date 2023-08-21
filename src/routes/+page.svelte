@@ -27,7 +27,8 @@
 		app.stage.addChild(viewport);
 
 		// activate plugins
-		viewport.drag({pressDrag: true}).wheel();
+		viewport.drag().wheel();
+
 
 		// add a red box
 		const sprite = viewport.addChild(new Sprite(Texture.WHITE));
