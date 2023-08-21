@@ -1,4 +1,4 @@
-# Issue when resizing downward
+# Issue when resizing 
 
 Get started: 
 
