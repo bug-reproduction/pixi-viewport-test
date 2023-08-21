@@ -1,59 +1,42 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import {onMount} from 'svelte';
+	import {Application, Texture, Sprite} from 'pixi.js';
+	import {Viewport} from 'pixi-viewport';
+
+	onMount(() => {
+		const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
+
+		const app = new Application({
+			view: canvas,
+			resolution: 1, // window.devicePixelRatio || 1,
+			// autoDensity: true,
+			backgroundColor: 0x6495ed,
+			resizeTo: window,
+		});
+
+		const viewport = new Viewport({
+			// screenWidth: window.innerWidth,
+			// screenHeight: window.innerHeight,
+			worldWidth: 1000,
+			worldHeight: 1000,
+
+			events: app.renderer.events, // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+		});
+
+		// add the viewport to the stage
+		app.stage.addChild(viewport);
+
+		// activate plugins
+		viewport.drag({pressDrag: true}).wheel();
+
+		// add a red box
+		const sprite = viewport.addChild(new Sprite(Texture.WHITE));
+		sprite.tint = 0xff0000;
+		sprite.width = sprite.height = 100;
+		sprite.position.set(100, 100);
+
+	
+	});
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+<canvas id="canvas" style="width:100%; height: 100%; display: block; position: absolute; top: 0; left: 0;" />

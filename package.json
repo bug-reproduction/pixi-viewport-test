@@ -29,5 +29,14 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"pixi-viewport": "^5.0.2",
+		"pixi.js": "^7.2.4"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+		  "pixi-viewport@5.0.2": "patches/pixi-viewport@5.0.2.patch"
+		}
+	  }
 }
